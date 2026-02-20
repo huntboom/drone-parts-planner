@@ -33,22 +33,28 @@
   flex: 1;
   display: flex;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .viewer-container {
   flex: 1;
+  min-width: 0; /* Allows flex item to shrink below content size */
   position: relative;
   background: #000;
 }
 
 /* Frame Selector Styles */
 .frame-selector {
-  width: 350px;
+  width: 320px;
+  min-width: 320px;
   background: rgba(20, 20, 30, 0.95);
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   padding: 20px;
   overflow-y: auto;
+  overflow-x: hidden;
   backdrop-filter: blur(10px);
+  box-sizing: border-box;
 }
 
 .frame-selector h2 {
@@ -146,9 +152,27 @@
 }
 
 /* Responsive */
+@media (max-width: 1400px) {
+  .frame-selector {
+    width: 280px;
+    min-width: 280px;
+  }
+  
+  .parts-panel {
+    width: 340px;
+    min-width: 340px;
+  }
+}
+
 @media (max-width: 1200px) {
   .frame-selector {
-    width: 300px;
+    width: 260px;
+    min-width: 260px;
+  }
+  
+  .parts-panel {
+    width: 320px;
+    min-width: 320px;
   }
 }
 

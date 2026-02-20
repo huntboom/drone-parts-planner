@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getMeshNames, getDronePartsSummary, findMeshByName } from '../utils/glbInspector';
+import { verifyMeshDiscovery } from '../utils/debugScene';
 import './PartsVisibilityPanel.css';
 
 function PartsVisibilityPanel({ scene, onVisibilityChange }) {
@@ -24,6 +25,11 @@ function PartsVisibilityPanel({ scene, onVisibilityChange }) {
       const initialVisibility = {};
       
       meshNames.forEach(({ name }) => {
+        // Skip if name is empty or invalid
+        if (!name || name.trim().length === 0) {
+          return;
+        }
+        
         const nameLower = name.toLowerCase();
         initialVisibility[name] = true; // All visible by default
         
@@ -37,6 +43,21 @@ function PartsVisibilityPanel({ scene, onVisibilityChange }) {
           grouped.other.push(name);
         }
       });
+      
+      console.log(`Found ${meshNames.length} toggleable parts:`, meshNames.map(m => m.name));
+      
+      // Verify we're finding all toggleable objects
+      const verification = verifyMeshDiscovery(scene, getMeshNames);
+      if (!verification.match) {
+        console.warn('⚠️ Mesh discovery mismatch:', {
+          found: verification.found,
+          shouldFind: verification.shouldFind,
+          missing: verification.missing,
+          extra: verification.extra
+        });
+      } else {
+        console.log('✅ All toggleable objects found correctly');
+      }
       
       setParts(meshNames);
       setGroupedParts(grouped);

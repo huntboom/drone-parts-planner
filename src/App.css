@@ -29,6 +29,26 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
+.app-subtitle {
+  margin-bottom: 12px !important;
+}
+
+.app-error {
+  color: #ff6b6b;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.app-loading {
+  color: #51cf66;
+  margin-top: 5px;
+  font-size: 0.85rem;
+}
+
+.step-panel-prompt .step-next-btn {
+  margin-top: 10px;
+}
+
 .app-content {
   flex: 1;
   display: flex;

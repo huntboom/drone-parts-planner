@@ -1,21 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment } from '@react-three/drei';
 import DroneViewer from './components/DroneViewer';
 import FrameSelector from './components/FrameSelector';
+import PartsVisibilityPanel from './components/PartsVisibilityPanel';
 import './App.css';
 
 function App() {
   const [selectedFrame, setSelectedFrame] = useState(null);
   const [error, setError] = useState(null);
+  const [droneScene, setDroneScene] = useState(null);
 
   // Debug: Log when frame is selected
   useEffect(() => {
     if (selectedFrame) {
       console.log('Selected frame:', selectedFrame);
       setError(null);
+      setDroneScene(null); // Reset scene when frame changes
     }
   }, [selectedFrame]);
+
+  // Use useCallback to prevent function recreation on every render
+  const handleSceneReady = useCallback((scene) => {
+    console.log('Scene ready, setting drone scene');
+    setDroneScene(scene);
+  }, []);
 
   return (
     <div className="app">
@@ -63,6 +72,7 @@ function App() {
               <DroneViewer 
                 framePath={selectedFrame.path}
                 onError={(err) => setError(err)}
+                onSceneReady={handleSceneReady}
               />
             ) : (
               <mesh>
@@ -81,6 +91,15 @@ function App() {
             />
           </Canvas>
         </div>
+        
+        {selectedFrame && (
+          <PartsVisibilityPanel 
+            scene={droneScene}
+            onVisibilityChange={(partName, visible) => {
+              console.log(`Part ${partName} visibility: ${visible}`);
+            }}
+          />
+        )}
       </div>
     </div>
   );

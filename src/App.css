@@ -146,6 +146,12 @@
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .frame-selector {
+    width: 300px;
+  }
+}
+
 @media (max-width: 768px) {
   .app-content {
     flex-direction: column;
@@ -160,6 +166,7 @@
   
   .viewer-container {
     flex: 1;
+    min-height: 400px;
   }
 }
 
